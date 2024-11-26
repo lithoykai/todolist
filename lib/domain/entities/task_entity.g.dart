@@ -54,3 +54,47 @@ class TaskEntityAdapter extends TypeAdapter<TaskEntity> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class PriorityStatusAdapter extends TypeAdapter<PriorityStatus> {
+  @override
+  final int typeId = 1;
+
+  @override
+  PriorityStatus read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return PriorityStatus.low;
+      case 1:
+        return PriorityStatus.medium;
+      case 2:
+        return PriorityStatus.high;
+      default:
+        return PriorityStatus.low;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, PriorityStatus obj) {
+    switch (obj) {
+      case PriorityStatus.low:
+        writer.writeByte(0);
+        break;
+      case PriorityStatus.medium:
+        writer.writeByte(1);
+        break;
+      case PriorityStatus.high:
+        writer.writeByte(2);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PriorityStatusAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

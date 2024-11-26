@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:todolist/data/datasource/clients/hive/hive_service.dart';
 import 'package:todolist/data/datasource/task/task_datasource_offline.dart';
 import 'package:todolist/data/models/task_model.dart';
 import 'package:todolist/domain/entities/task_entity.dart';
 
+@Injectable(as: ITaskDataSource)
 class TaskDataSourceImpl implements ITaskDataSource {
-  HiveService _hiveService;
+  final HiveService _hiveService;
 
   TaskDataSourceImpl({required HiveService hiveService})
       : _hiveService = hiveService;
@@ -14,7 +15,7 @@ class TaskDataSourceImpl implements ITaskDataSource {
   Future<TaskEntity> createTask(TaskModel task) async {
     try {
       final taskEntity = task.toEntity();
-      await _hiveService.saveItem("tasks", taskEntity);
+      await _hiveService.saveItem("tasks", taskEntity.id, taskEntity);
       return taskEntity;
     } catch (e) {
       rethrow;
@@ -22,20 +23,31 @@ class TaskDataSourceImpl implements ITaskDataSource {
   }
 
   @override
-  Future<String> deleteTask(String id) {
-    // TODO: implement deleteTask
-    throw UnimplementedError();
+  Future<List<TaskEntity>> getTasks() async {
+    try {
+      return await _hiveService.getAllItems<TaskEntity>("tasks");
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<List<TaskEntity>> getTasks() {
-    // TODO: implement getTasks
-    throw UnimplementedError();
+  Future<TaskEntity> updateTask(TaskEntity task) async {
+    try {
+      await _hiveService.updateItem('tasks', task.id, task);
+      return task;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<TaskEntity> updateTask(TaskModel task) {
-    // TODO: implement updateTask
-    throw UnimplementedError();
+  Future<bool> deleteTask(String id) async {
+    try {
+      final response = await _hiveService.deleteItem("tasks", id);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

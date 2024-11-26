@@ -1,5 +1,5 @@
 name: todolist
-description: "A new Flutter project."
+description: "A To-do list app"
 publish_to: 'none' 
 
 version: 1.0.0+1

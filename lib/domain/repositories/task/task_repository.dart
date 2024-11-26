@@ -6,6 +6,6 @@ import 'package:todolist/infra/failure/failure.dart';
 abstract interface class ITaskRepository {
   Future<Either<Failure, List<TaskEntity>>> getTasks();
   Future<Either<Failure, TaskEntity>> createTask(TaskModel task);
-  Future<Either<Failure, TaskEntity>> updateTask(TaskModel task);
-  Future<Either<Failure, String>> deleteTask(String id);
+  Future<Either<Failure, TaskEntity>> updateTask(TaskEntity task);
+  Future<Either<Failure, bool>> deleteTask(String id);
 }

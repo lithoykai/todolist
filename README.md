@@ -1,6 +1,6 @@
-# todolist_fibbo
+# todolist
 
-A new Flutter project.
+My new project. 
 
 ## Getting Started
 

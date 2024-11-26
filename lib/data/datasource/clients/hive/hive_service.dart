@@ -14,10 +14,10 @@ class HiveService {
     return _hive.box(boxName);
   }
 
-  Future<void> saveItem(String boxName, var item) async {
+  Future<void> saveItem(String boxName, dynamic key, var item) async {
     final box = await _openBox(boxName);
     try {
-      await box.add(item);
+      await box.put(key, item);
     } catch (e) {
       throw HiveError("Erro ao salvar item: $e");
     }
@@ -44,25 +44,24 @@ class HiveService {
     }
   }
 
-  Future<void> deleteItem(String boxName, dynamic key) async {
+  Future<bool> deleteItem(String boxName, dynamic key) async {
     final box = await _openBox(boxName);
     try {
       if (box.containsKey(key)) {
         await box.delete(key);
+        return true;
       }
+      return false;
     } catch (e) {
       throw HiveError("Erro ao deletar item: $e");
     }
   }
 
-  Future<void> updateItem<T>(String boxName, dynamic key, T updatedItem) async {
+  Future<T> updateItem<T>(String boxName, dynamic key, T updatedItem) async {
     final box = await _openBox(boxName);
     try {
-      if (box.containsKey(key)) {
-        await box.put(key, updatedItem);
-      } else {
-        throw HiveError("Item não encontrado para atualização.");
-      }
+      await box.put(key, updatedItem);
+      return updatedItem;
     } catch (e) {
       throw HiveError("Erro ao atualizar item: $e");
     }

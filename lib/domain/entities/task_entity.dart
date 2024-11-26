@@ -16,9 +16,9 @@ class TaskEntity extends Equatable {
   @HiveField(4)
   final DateTime date;
   @HiveField(5)
-  final bool isDone;
+  bool isDone;
 
-  const TaskEntity({
+  TaskEntity({
     required this.id,
     required this.name,
     required this.description,
@@ -29,6 +29,18 @@ class TaskEntity extends Equatable {
 
   @override
   List<Object?> get props => [id, name, description, priority, date, isDone];
+
+  void toggleDone() {
+    isDone = !isDone;
+  }
 }
 
-enum PriorityStatus { low, medium, high }
+@HiveType(typeId: 1)
+enum PriorityStatus {
+  @HiveField(0)
+  low,
+  @HiveField(1)
+  medium,
+  @HiveField(2)
+  high
+}

@@ -18,6 +18,7 @@ final getIt = GetIt.instance;
 void setup() {}
 Future<void> init() async {
   Hive.registerAdapter(TaskEntityAdapter());
+  Hive.registerAdapter(PriorityStatusAdapter());
   Directory directory = await pathProvider.getApplicationDocumentsDirectory();
   var hiveData = Directory('${directory.path}/db');
   await Hive.initFlutter(hiveData.path);
