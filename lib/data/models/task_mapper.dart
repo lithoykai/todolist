@@ -4,7 +4,7 @@ import 'package:todolist/domain/entities/task_entity.dart';
 TaskModel $TaskModelFromEntity(TaskEntity entity) {
   return TaskModel(
     id: entity.id,
-    name: entity.name,
+    title: entity.title,
     description: entity.description,
     priority: entity.priority,
     date: entity.date,
@@ -15,7 +15,7 @@ TaskModel $TaskModelFromEntity(TaskEntity entity) {
 TaskEntity $TaskModelToEntity(TaskModel model) {
   return TaskEntity(
     id: model.id,
-    name: model.name,
+    title: model.title,
     description: model.description,
     priority: model.priority,
     date: model.date,
@@ -26,21 +26,21 @@ TaskEntity $TaskModelToEntity(TaskModel model) {
 TaskModel $TaskModelfromJson(Map<String, dynamic> json) {
   return TaskModel(
     id: json['id'],
-    name: json['name'],
+    title: json['title'],
     description: json['description'],
-    priority: json['priority'],
-    date: DateTime.parse(json['date']),
-    isDone: json['isDone'],
+    priority: PriorityStatus.values[json['priority']],
+    date: json['date'] != null ? DateTime.parse(json['date']) : null,
+    isDone: json['isDone'] ?? false,
   );
 }
 
 Map<String, dynamic> $TaskModelToJson(TaskModel instance) {
   return {
     'id': instance.id,
-    'name': instance.name,
+    'title': instance.title,
     'description': instance.description,
     'priority': instance.priority,
-    'date': instance.date.toIso8601String(),
+    'date': instance.date?.toIso8601String() ?? '',
     'isDone': instance.isDone,
   };
 }

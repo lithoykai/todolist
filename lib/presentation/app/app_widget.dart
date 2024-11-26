@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/infra/routers/app_routers.dart';
+import 'package:todolist/infra/theme/theme_app.dart';
 import 'package:todolist/presentation/pages/home_page.dart';
 
 class AppWidget extends StatelessWidget {
@@ -10,6 +11,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Todo List',
+      theme: ThemeApp.lightTheme,
       routes: {
         AppRouters.HOME: (context) => const HomePage(),
       },

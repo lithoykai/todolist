@@ -18,10 +18,10 @@ class TaskEntityAdapter extends TypeAdapter<TaskEntity> {
     };
     return TaskEntity(
       id: fields[0] as String,
-      name: fields[1] as String,
-      description: fields[2] as String,
+      title: fields[1] as String,
+      description: fields[2] as String?,
       priority: fields[3] as PriorityStatus,
-      date: fields[4] as DateTime,
+      date: fields[4] as DateTime?,
       isDone: fields[5] as bool,
     );
   }
@@ -33,7 +33,7 @@ class TaskEntityAdapter extends TypeAdapter<TaskEntity> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.title)
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)

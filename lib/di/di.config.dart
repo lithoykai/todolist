@@ -47,10 +47,10 @@ _i174.GetIt $initGetIt(
       _i114.TaskRepositoryImpl(taskDataSource: gh<_i219.ITaskDataSource>()));
   gh.factory<_i509.CreateTaskUseCase>(
       () => _i509.CreateTaskUseCase(repository: gh<_i1068.ITaskRepository>()));
-  gh.factory<_i678.GetTasksUseCase>(
-      () => _i678.GetTasksUseCase(repository: gh<_i1068.ITaskRepository>()));
   gh.factory<_i255.UpdateTaskUseCase>(
       () => _i255.UpdateTaskUseCase(repository: gh<_i1068.ITaskRepository>()));
+  gh.factory<_i678.GetTasksUseCase>(
+      () => _i678.GetTasksUseCase(repository: gh<_i1068.ITaskRepository>()));
   gh.factory<_i926.DeleteTaskUseCase>(
       () => _i926.DeleteTaskUseCase(gh<_i1068.ITaskRepository>()));
   gh.factory<_i743.TaskController>(() => _i743.TaskController(

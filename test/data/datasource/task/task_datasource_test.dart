@@ -13,12 +13,10 @@ import 'task_datasource_test.mocks.dart';
 @GenerateMocks([HiveService, Box<TaskEntity>])
 void main() {
   late HiveService _hiveService;
-  late Box<TaskEntity> box;
   late ITaskDataSource datasource;
 
   setUp(() {
     _hiveService = MockHiveService();
-    box = MockBox();
     datasource = TaskDataSourceImpl(hiveService: _hiveService);
   });
 

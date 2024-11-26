@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class HiveService {
-  HiveInterface _hive;
+  final HiveInterface _hive;
 
   HiveService({required HiveInterface hive}) : _hive = hive;
 

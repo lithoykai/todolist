@@ -10,10 +10,10 @@ import 'package:todolist/infra/failure/failure.dart';
 
 @injectable
 class TaskController extends ChangeNotifier {
-  final GetTasksUseCase _getTasksUseCase;
   final CreateTaskUseCase _createTaskUseCase;
-  final DeleteTaskUseCase _deleteTaskUseCase;
+  final GetTasksUseCase _getTasksUseCase;
   final UpdateTaskUseCase _updateTaskUseCase;
+  final DeleteTaskUseCase _deleteTaskUseCase;
 
   TaskController({
     required GetTasksUseCase getTasksUseCase,
@@ -28,6 +28,12 @@ class TaskController extends ChangeNotifier {
   List<TaskEntity> _tasks = List.of(<TaskEntity>[]);
   List<TaskEntity> get tasks => _tasks;
   TaskStatus status = TaskStatusIdle();
+  int pageStatusNavigator = 0;
+
+  void changeNavigator(int index) {
+    pageStatusNavigator = index;
+    notifyListeners();
+  }
 
   void setTasks(List<TaskEntity> tasks) {
     _tasks = tasks;
