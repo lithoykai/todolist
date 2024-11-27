@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'task_entity.g.dart';
 
 @HiveType(typeId: 0)
 // ignore: must_be_immutable
-class TaskEntity extends Equatable {
+class TaskEntity extends Equatable with ChangeNotifier {
   @HiveField(0)
   final String id;
   @HiveField(1)
@@ -33,6 +34,7 @@ class TaskEntity extends Equatable {
 
   void toggleDone() {
     isDone = !isDone;
+    notifyListeners();
   }
 }
 
@@ -44,4 +46,17 @@ enum PriorityStatus {
   medium,
   @HiveField(2)
   high
+}
+
+extension PriorityStatusExtension on PriorityStatus {
+  String get name {
+    switch (this) {
+      case PriorityStatus.low:
+        return 'Baixa';
+      case PriorityStatus.medium:
+        return 'Média';
+      case PriorityStatus.high:
+        return 'Alta';
+    }
+  }
 }

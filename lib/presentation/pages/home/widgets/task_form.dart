@@ -17,21 +17,21 @@ class TaskForm extends StatefulWidget {
 }
 
 class _TaskFormState extends State<TaskForm> {
-  final taskController = getIt<TaskController>();
+  final _taskController = getIt<TaskController>();
 
   int priority = 0;
   Map<String, dynamic> _taskForm = {
     'priority': 0,
   };
-  DateTime selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
-  final FocusNode titleFocus = FocusNode();
-  final FocusNode descriptionFocus = FocusNode();
+  final FocusNode _titleFocus = FocusNode();
+  final FocusNode _descriptionFocus = FocusNode();
 
   @override
   void dispose() {
-    titleFocus.dispose();
-    descriptionFocus.dispose();
+    _titleFocus.dispose();
+    _descriptionFocus.dispose();
     super.dispose();
   }
 
@@ -57,9 +57,9 @@ class _TaskFormState extends State<TaskForm> {
     TaskModel model = TaskModel.fromJson(_taskForm);
 
     try {
-      await taskController.createTask(model);
-      if (taskController.status is TaskStatusError) {
-        _showAlert((taskController.status as TaskStatusError).message);
+      await _taskController.createTask(model);
+      if (_taskController.status is TaskStatusError) {
+        _showAlert((_taskController.status as TaskStatusError).message);
       } else {
         if (mounted) {
           Navigator.of(context).pop();
@@ -104,10 +104,10 @@ class _TaskFormState extends State<TaskForm> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
-              focusNode: titleFocus,
+              focusNode: _titleFocus,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.onPrimary,
+                fillColor: Theme.of(context).colorScheme.secondary,
                 border: const OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.all(
@@ -132,7 +132,7 @@ class _TaskFormState extends State<TaskForm> {
                 return null;
               },
               onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(descriptionFocus);
+                FocusScope.of(context).requestFocus(_descriptionFocus);
               },
               onSaved: (value) {
                 _taskForm['title'] = value;
@@ -206,10 +206,10 @@ class _TaskFormState extends State<TaskForm> {
                       ),
                     ),
                     DatePickerWidget(
-                      selectedDate: selectedDate,
+                      selectedDate: _selectedDate,
                       onChangeDate: (DateTime value) {
                         setState(() {
-                          selectedDate = value;
+                          _selectedDate = value;
                           _taskForm['date'] = value.toIso8601String();
                         });
                       },
@@ -217,12 +217,12 @@ class _TaskFormState extends State<TaskForm> {
                       lastDate: DateTime(2026),
                     ),
                     Text(
-                      DateFormat.d().format(selectedDate),
+                      DateFormat.d().format(_selectedDate),
                     ),
                   ],
                 ),
                 ListenableBuilder(
-                    listenable: taskController,
+                    listenable: _taskController,
                     builder: (context, child) {
                       return ClipOval(
                         child: Material(

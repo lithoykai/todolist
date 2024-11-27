@@ -6,7 +6,7 @@ class ThemeApp {
         brightness: Brightness.light,
         primary: const Color(0xFF89A8B2),
         onPrimary: const Color(0xFFBCD9D9),
-        secondary: const Color(0xFFFFE2A8),
+        secondary: Colors.grey.withOpacity(0.1),
         onSecondary: const Color(0xFFFFF4DD),
         error: const Color(0xFFCF5656),
         onError: const Color(0xFFCF5656),
@@ -14,5 +14,17 @@ class ThemeApp {
         onSurface: Colors.black.withOpacity(0.6),
         tertiary: Colors.white,
       ),
-      fontFamily: 'Roboto');
+      fontFamily: 'Roboto',
+      textTheme: TextTheme(
+        titleLarge: TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: Colors.black.withOpacity(0.6),
+        ),
+      ));
 }
+
+//Botton: primary
+//Text when primary: tertiary
+//Button not select: OnPrimary
+//text when not select: onSurface

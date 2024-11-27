@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:todolist/data/models/task_model.dart';
@@ -8,7 +9,7 @@ import 'package:todolist/domain/usecase/task/create_task.dart';
 import 'package:todolist/domain/usecase/task/update_task.dart';
 import 'package:todolist/infra/failure/failure.dart';
 
-@injectable
+@singleton
 class TaskController extends ChangeNotifier {
   final CreateTaskUseCase _createTaskUseCase;
   final GetTasksUseCase _getTasksUseCase;
@@ -26,9 +27,12 @@ class TaskController extends ChangeNotifier {
         _updateTaskUseCase = updateTaskUseCase;
 
   List<TaskEntity> _tasks = List.of(<TaskEntity>[]);
-  List<TaskEntity> get tasks => _tasks;
   TaskStatus status = TaskStatusIdle();
+  List<TaskEntity> get filteredTasks =>
+      _tasks.where((task) => task.isDone == (pageStatusNavigator == 1)).toList()
+        ..sort((a, b) => b.priority.index.compareTo(a.priority.index));
   int pageStatusNavigator = 0;
+  bool isDonePage = false;
 
   void changeNavigator(int index) {
     pageStatusNavigator = index;
@@ -47,6 +51,8 @@ class TaskController extends ChangeNotifier {
 
   Future<void> getTasks() async {
     status = TaskStatusLoading();
+    notifyListeners();
+
     final result = await _getTasksUseCase.getTasks();
     result.fold(
       (failure) {
@@ -55,6 +61,7 @@ class TaskController extends ChangeNotifier {
         } else {
           status = TaskStatusError('Erro desconhecido');
         }
+        notifyListeners();
       },
       (tasks) {
         setTasks(tasks);
@@ -89,9 +96,9 @@ class TaskController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateTask(TaskEntity model) async {
+  Future<void> updateTask(TaskEntity entity) async {
     status = TaskStatusLoading();
-    final response = await _updateTaskUseCase.call(model);
+    final response = await _updateTaskUseCase.call(entity);
     response.fold((l) {
       if (l is AppFailure) {
         status = TaskStatusError(l.toString());
@@ -99,11 +106,17 @@ class TaskController extends ChangeNotifier {
         status = TaskStatusError('Erro desconhecido');
       }
     }, (r) {
-      final index = _tasks.indexWhere((element) => element.id == model.id);
+      final index = _tasks.indexWhere((element) => element.id == entity.id);
       _tasks[index] = r;
       status = TaskStatusIdle();
     });
 
+    notifyListeners();
+  }
+
+  void toggleDone(TaskEntity task) {
+    final index = _tasks.indexWhere((element) => element.id == task.id);
+    _tasks[index].toggleDone();
     notifyListeners();
   }
 }

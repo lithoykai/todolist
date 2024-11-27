@@ -39,7 +39,7 @@ Map<String, dynamic> $TaskModelToJson(TaskModel instance) {
     'id': instance.id,
     'title': instance.title,
     'description': instance.description,
-    'priority': instance.priority,
+    'priority': instance.priority.index,
     'date': instance.date?.toIso8601String() ?? '',
     'isDone': instance.isDone,
   };

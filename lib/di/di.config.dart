@@ -53,7 +53,7 @@ _i174.GetIt $initGetIt(
       () => _i678.GetTasksUseCase(repository: gh<_i1068.ITaskRepository>()));
   gh.factory<_i926.DeleteTaskUseCase>(
       () => _i926.DeleteTaskUseCase(gh<_i1068.ITaskRepository>()));
-  gh.factory<_i743.TaskController>(() => _i743.TaskController(
+  gh.singleton<_i743.TaskController>(() => _i743.TaskController(
         getTasksUseCase: gh<_i678.GetTasksUseCase>(),
         createTaskUseCase: gh<_i509.CreateTaskUseCase>(),
         deleteTaskUseCase: gh<_i926.DeleteTaskUseCase>(),

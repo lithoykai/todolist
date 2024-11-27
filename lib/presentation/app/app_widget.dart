@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todolist/infra/routers/app_routers.dart';
 import 'package:todolist/infra/theme/theme_app.dart';
 import 'package:todolist/presentation/pages/home_page.dart';
+import 'package:todolist/presentation/pages/task/task_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -14,6 +15,7 @@ class AppWidget extends StatelessWidget {
       theme: ThemeApp.lightTheme,
       routes: {
         AppRouters.HOME: (context) => const HomePage(),
+        AppRouters.TASKDETAIL: (context) => TaskPage(),
       },
     );
   }
