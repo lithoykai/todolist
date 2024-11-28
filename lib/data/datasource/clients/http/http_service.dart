@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:todolist/data/datasource/clients/hive/hive_service.dart';
 import 'package:todolist/data/models/auth/auth_dto.dart';
 import 'package:todolist/domain/entities/user/user_entity.dart';
-import 'package:todolist/infra/routers/endpoints.dart';
+import 'package:todolist/infra/routers/endpoint.dart';
 
 @injectable
 class HttpService {
@@ -49,6 +49,14 @@ class HttpService {
   }
 
   Future<Response> post(String endpoint, Map<String, dynamic> data) async {
+    return _authorizedRequest(() async {
+      return _dio.post('${Endpoints.BASE_URL}/$endpoint',
+          data: jsonEncode(data));
+    });
+  }
+
+  Future<Response> postList(
+      String endpoint, List<Map<String, dynamic>> data) async {
     return _authorizedRequest(() async {
       return _dio.post('${Endpoints.BASE_URL}/$endpoint',
           data: jsonEncode(data));

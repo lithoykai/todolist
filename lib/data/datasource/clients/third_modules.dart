@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 @module
 abstract class RegisterModule {
   @factoryMethod
-  Dio dio() => dio();
+  Dio dio() => Dio();
 
   @factoryMethod
   HiveInterface hive() => Hive;

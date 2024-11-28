@@ -114,6 +114,32 @@ class MockHttpService extends _i1.Mock implements _i4.HttpService {
       ) as _i3.Future<_i2.Response<dynamic>>);
 
   @override
+  _i3.Future<_i2.Response<dynamic>> postList(
+    String? endpoint,
+    List<Map<String, dynamic>>? data,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #postList,
+          [
+            endpoint,
+            data,
+          ],
+        ),
+        returnValue:
+            _i3.Future<_i2.Response<dynamic>>.value(_FakeResponse_0<dynamic>(
+          this,
+          Invocation.method(
+            #postList,
+            [
+              endpoint,
+              data,
+            ],
+          ),
+        )),
+      ) as _i3.Future<_i2.Response<dynamic>>);
+
+  @override
   _i3.Future<_i2.Response<dynamic>> put(
     String? endpoint,
     Map<String, dynamic>? data,
@@ -283,4 +309,14 @@ class MockHiveService extends _i1.Mock implements _i6.HiveService {
               ),
             ),
       ) as _i3.Future<T>);
+
+  @override
+  _i3.Future<void> clearBox<T>(String? boxName) => (super.noSuchMethod(
+        Invocation.method(
+          #clearBox,
+          [boxName],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }

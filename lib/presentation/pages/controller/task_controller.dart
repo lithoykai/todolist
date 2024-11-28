@@ -1,6 +1,4 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:injectable/injectable.dart';
 import 'package:todolist/data/models/task_model.dart';
 import 'package:todolist/domain/entities/task_entity.dart';
@@ -69,7 +67,7 @@ class TaskController extends ChangeNotifier {
 
   Future<void> getTasks() async {
     status = TaskStatusLoading();
-    notifyListeners();
+    _tasks.clear();
 
     final result = await _getTasksUseCase.getTasks();
     result.fold(
@@ -135,6 +133,7 @@ class TaskController extends ChangeNotifier {
   void toggleDone(TaskEntity task) {
     final index = _tasks.indexWhere((element) => element.id == task.id);
     _tasks[index].toggleDone();
+    _updateTaskUseCase.call(_tasks[index]);
     notifyListeners();
   }
 }

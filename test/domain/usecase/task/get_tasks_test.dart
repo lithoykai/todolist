@@ -6,7 +6,7 @@ import 'package:todolist/domain/repositories/task/task_repository.dart';
 import 'package:todolist/domain/usecase/task/get_tasks.dart';
 import 'package:todolist/infra/failure/failure.dart';
 
-import '../../fixture/task_fixture.dart';
+import '../../../fixture/task_fixture.dart';
 import 'create_task_test.mocks.dart';
 
 void main() {

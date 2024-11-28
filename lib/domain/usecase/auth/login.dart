@@ -11,7 +11,7 @@ class LoginUseCase {
 
   LoginUseCase(this._authRepository);
 
-  Future<Either<Failure, UserEntity>> execute(AuthDTO auth) async {
+  Future<Either<Failure, UserEntity>> call(AuthDTO auth) async {
     return await _authRepository.login(auth);
   }
 }

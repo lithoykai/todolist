@@ -48,4 +48,14 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> logout() {
+    try {
+      final response = _hive.deleteItem('user', 'token');
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

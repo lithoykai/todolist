@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:todolist/presentation/pages/auth/form/auth_form.dart';
 
 class AuthPage extends StatelessWidget {
@@ -9,6 +7,7 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
           child: SingleChildScrollView(
         child: Column(

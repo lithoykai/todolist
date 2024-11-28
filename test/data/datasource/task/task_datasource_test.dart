@@ -1,8 +1,8 @@
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:todolist/data/datasource/clients/hive/hive_service.dart';
-import 'package:todolist/data/datasource/task/task_datasource_impl.dart';
 import 'package:todolist/data/datasource/task/task_datasource_offline.dart';
+import 'package:todolist/data/datasource/task/task_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:todolist/domain/entities/task_entity.dart';
@@ -17,12 +17,11 @@ void main() {
 
   setUp(() {
     _hiveService = MockHiveService();
-    datasource = TaskDataSourceImpl(hiveService: _hiveService);
+    datasource = TaskDatasourceOffline(hiveService: _hiveService);
   });
 
   group('DataSource Tests', () {
     test('Should create a task', () async {
-      final _fakeModel = fakeTaskModel;
       final _fakeTaskEntity = fakeTaskModel.toEntity();
 
       when(_hiveService.saveItem("tasks", _fakeTaskEntity.id, _fakeTaskEntity))
@@ -60,8 +59,6 @@ void main() {
     });
 
     test('Should return a empty list', () async {
-      final _fakeList = fakeTaskEntityList;
-
       when(_hiveService.getAllItems("tasks"))
           .thenAnswer((_) async => <TaskEntity>[]);
       final response = await datasource.getTasks();
@@ -72,25 +69,18 @@ void main() {
     });
 
     test('Should return a error when try get a to-do list', () async {
-      final _fakeModel = fakeTaskModel;
-      final _fakeTaskEntity = fakeTaskModel.toEntity();
-
       when(_hiveService.getAllItems("tasks")).thenThrow(HiveError("Error"));
 
       expect(
           () async => await datasource.getTasks(), throwsA(isA<HiveError>()));
     });
     test('Should return a Exception when try get a to-do list', () async {
-      final _fakeModel = fakeTaskModel;
-      final _fakeTaskEntity = fakeTaskModel.toEntity();
-
       when(_hiveService.getAllItems("tasks")).thenThrow(Exception());
 
       expect(
           () async => await datasource.getTasks(), throwsA(isA<Exception>()));
     });
     test('Should delete a task from the list', () async {
-      final _fakeList = fakeTaskEntityList;
       final _fakeTaskEntity = fakeTaskEntityTwo;
 
       when(_hiveService.deleteItem("tasks", _fakeTaskEntity.id))
@@ -101,7 +91,6 @@ void main() {
       expect(response, true);
     });
     test('Should throw error when I try delete a task from the list', () async {
-      final _fakeList = fakeTaskEntityList;
       final _fakeTaskEntity = fakeTaskEntityTwo;
 
       when(_hiveService.deleteItem("tasks", _fakeTaskEntity.id))
@@ -124,7 +113,6 @@ void main() {
       expect(response, _fakeTaskEntity);
     });
     test('Should throw error when edit a task', () async {
-      final _firstFakeEntity = fakeTaskEntity;
       final _fakeTaskEntity = fakeTaskEntityEdited;
 
       when(_hiveService.updateItem(

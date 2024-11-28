@@ -142,6 +142,16 @@ class MockHiveService extends _i1.Mock implements _i3.HiveService {
               ),
             ),
       ) as _i2.Future<T>);
+
+  @override
+  _i2.Future<void> clearBox<T>(String? boxName) => (super.noSuchMethod(
+        Invocation.method(
+          #clearBox,
+          [boxName],
+        ),
+        returnValue: _i2.Future<void>.value(),
+        returnValueForMissingStub: _i2.Future<void>.value(),
+      ) as _i2.Future<void>);
 }
 
 /// A class which mocks [Box].

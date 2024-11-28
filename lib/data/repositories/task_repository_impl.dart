@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:todolist/data/datasource/task/task_datasource_offline.dart';
+import 'package:todolist/data/datasource/task/task_datasource.dart';
 import 'package:todolist/data/models/task_model.dart';
 import 'package:todolist/domain/entities/task_entity.dart';
 import 'package:todolist/domain/repositories/task/task_repository.dart';

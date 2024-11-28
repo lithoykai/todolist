@@ -5,4 +5,5 @@ abstract class AuthRemoteDatasource {
   Future<UserEntity> login(AuthDTO auth);
   Future<UserEntity> signUp(AuthDTO auth);
   Future<UserEntity> getUser();
+  Future<bool> logout();
 }

@@ -3,6 +3,7 @@ import 'package:todolist/di/di.dart';
 import 'package:todolist/domain/entities/task_entity.dart';
 import 'package:todolist/infra/routers/app_routers.dart';
 import 'package:todolist/infra/theme/theme_constants.dart';
+import 'package:todolist/presentation/pages/auth/widget/auth_drawer.dart';
 import 'package:todolist/presentation/pages/controller/task_controller.dart';
 import 'package:todolist/presentation/pages/home/widgets/button_navigator.dart';
 import 'package:todolist/presentation/pages/home/widgets/state/empty_list.dart';
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AuthDrawerWidget(),
       appBar: AppBar(
         title: const Text('Listas de Tarefas'),
       ),

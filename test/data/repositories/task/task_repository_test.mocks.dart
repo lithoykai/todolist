@@ -6,8 +6,7 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:todolist/data/datasource/task/task_datasource_offline.dart'
-    as _i3;
+import 'package:todolist/data/datasource/task/task_datasource.dart' as _i3;
 import 'package:todolist/data/models/task_model.dart' as _i5;
 import 'package:todolist/domain/entities/task_entity.dart' as _i2;
 

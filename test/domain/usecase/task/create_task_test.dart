@@ -7,7 +7,7 @@ import 'package:todolist/domain/repositories/task/task_repository.dart';
 import 'package:todolist/domain/usecase/task/create_task.dart';
 import 'package:todolist/infra/failure/failure.dart';
 
-import '../../fixture/task_fixture.dart';
+import '../../../fixture/task_fixture.dart';
 import 'create_task_test.mocks.dart';
 
 @GenerateMocks([ITaskRepository])
@@ -38,7 +38,6 @@ void main() {
 
     test('Should return a error when try create a task', () async {
       final _fakeModel = fakeTaskModel;
-      final _fakeTaskEntity = fakeTaskModel.toEntity();
 
       when(repository.createTask(_fakeModel))
           .thenAnswer((_) async => Left(AppFailure(msg: 'Error')));

@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:todolist/data/datasource/task/task_datasource_offline.dart';
+import 'package:todolist/data/datasource/task/task_datasource.dart';
 import 'package:todolist/data/repositories/task_repository_impl.dart';
 import 'package:todolist/domain/entities/task_entity.dart';
 import 'package:todolist/domain/repositories/task/task_repository.dart';
@@ -66,7 +66,6 @@ void main() {
     });
 
     test('Should throw a error when I try get all tasks', () async {
-      final _fixture = fakeTaskModel;
       when(dataSource.getTasks()).thenThrow(Exception());
 
       final _response = await repository.getTasks();
@@ -82,7 +81,6 @@ void main() {
           .thenAnswer((_) async => _fakeTaskEntity);
 
       final _response = await repository.updateTask(_fakeTaskEntity);
-      final _result = _response.fold((l) => l, (r) => r);
       verify(dataSource.updateTask(_fakeTaskEntity)).called(1);
       expect(_response.isRight(), true);
     });
@@ -102,7 +100,6 @@ void main() {
       when(dataSource.deleteTask(_fixture.id)).thenAnswer((_) async => true);
 
       final _response = await repository.deleteTask(_fixture.id);
-      final _result = _response.fold((l) => l, (r) => r);
       verify(dataSource.deleteTask(_fixture.id)).called(1);
       expect(_response.isRight(), true);
     });

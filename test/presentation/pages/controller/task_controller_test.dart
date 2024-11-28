@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:todolist/domain/entities/task_entity.dart';
 import 'package:todolist/domain/usecase/task/create_task.dart';
 import 'package:todolist/domain/usecase/task/delete_task.dart';
 import 'package:todolist/domain/usecase/task/get_tasks.dart';
@@ -138,6 +137,8 @@ void main() {
       final _task = fakeTaskEntity;
       controller.addTask(_task);
       controller.changeNavigator(1);
+      when(mockUpdateTaskUseCase.call(_task))
+          .thenAnswer((_) async => Right(_task));
       controller.toggleDone(_task);
 
       expect(controller.filteredTasks.contains(_task), true);

@@ -66,4 +66,13 @@ class HiveService {
       throw HiveError("Erro ao atualizar item: $e");
     }
   }
+
+  Future<void> clearBox<T>(String boxName) async {
+    final box = await _openBox(boxName);
+    try {
+      await box.clear();
+    } catch (e) {
+      throw HiveError("Erro ao excluir a box: $e");
+    }
+  }
 }

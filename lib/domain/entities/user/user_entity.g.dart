@@ -8,7 +8,7 @@ part of 'user_entity.dart';
 
 class UserEntityAdapter extends TypeAdapter<UserEntity> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
   UserEntity read(BinaryReader reader) {
@@ -19,9 +19,8 @@ class UserEntityAdapter extends TypeAdapter<UserEntity> {
     return UserEntity(
       id: fields[0] as String,
       email: fields[1] as String,
-      token: fields[2] as String,
       expiryDate: fields[3] as DateTime,
-    );
+    ).._token = fields[2] as String;
   }
 
   @override
@@ -33,7 +32,7 @@ class UserEntityAdapter extends TypeAdapter<UserEntity> {
       ..writeByte(1)
       ..write(obj.email)
       ..writeByte(2)
-      ..write(obj.token)
+      ..write(obj._token)
       ..writeByte(3)
       ..write(obj.expiryDate);
   }

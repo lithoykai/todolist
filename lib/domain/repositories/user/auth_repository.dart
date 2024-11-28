@@ -7,4 +7,5 @@ abstract interface class AuthRepository {
   Future<Either<Failure, UserEntity>> login(AuthDTO auth);
   Future<Either<Failure, UserEntity>> signUp(AuthDTO auth);
   Future<Either<Failure, UserEntity>> getUser();
+  Future<Either<Failure, bool>> logout();
 }
