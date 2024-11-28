@@ -55,8 +55,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: ThemeConstants.halfPadding),
+          padding:
+              const EdgeInsets.symmetric(horizontal: ThemeConstants.padding),
           child: Column(children: [
             const ButtonNavigator(),
             const SizedBox(
@@ -72,26 +72,49 @@ class _HomePageState extends State<HomePage> {
                     return const TaskErrorWidget();
                   } else if (controller.filteredTasks.isEmpty) {
                     return const EmptyList();
+                  } else if (controller.priorityFilter != 0 &&
+                      controller.filteredTasks.isEmpty) {
+                    return Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: ThemeConstants.halfPadding),
+                        child: Text(
+                            'Filtrado por prioridade: ${PriorityStatus.values[controller.priorityFilter - 1].name}'),
+                      ),
+                      const EmptyList()
+                    ]);
                   }
-                  return ListView.separated(
-                      separatorBuilder: (ctx, index) => const SizedBox(
-                            height: 10,
-                          ),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.filteredTasks.length,
-                      itemBuilder: (ctx, index) {
-                        TaskEntity task = controller.filteredTasks[index];
-                        return GestureDetector(
-                          onTap: () => Navigator.of(context).pushNamed(
-                              AppRouters.TASKDETAIL,
-                              arguments: task),
-                          child: TaskTileWidget(
-                            task: task,
-                            controller: controller,
-                          ),
-                        );
-                      });
+                  return Column(
+                    children: [
+                      controller.priorityFilter != 0
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: ThemeConstants.halfPadding),
+                              child: Text(
+                                  'Filtrado por prioridade: ${PriorityStatus.values[controller.priorityFilter - 1].name}'),
+                            )
+                          : const SizedBox(),
+                      ListView.separated(
+                          separatorBuilder: (ctx, index) => const SizedBox(
+                                height: 10,
+                              ),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.filteredTasks.length,
+                          itemBuilder: (ctx, index) {
+                            TaskEntity task = controller.filteredTasks[index];
+                            return GestureDetector(
+                              onTap: () => Navigator.of(context).pushNamed(
+                                  AppRouters.TASKDETAIL,
+                                  arguments: task),
+                              child: TaskTileWidget(
+                                task: task,
+                                controller: controller,
+                              ),
+                            );
+                          }),
+                    ],
+                  );
                 }),
           ]),
         ),

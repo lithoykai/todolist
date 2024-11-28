@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:injectable/injectable.dart';
 import 'package:todolist/data/models/task_model.dart';
 import 'package:todolist/domain/entities/task_entity.dart';
@@ -28,10 +29,22 @@ class TaskController extends ChangeNotifier {
 
   List<TaskEntity> _tasks = List.of(<TaskEntity>[]);
   TaskStatus status = TaskStatusIdle();
-  List<TaskEntity> get filteredTasks =>
-      _tasks.where((task) => task.isDone == (pageStatusNavigator == 1)).toList()
-        ..sort((a, b) => b.priority.index.compareTo(a.priority.index));
+  List<TaskEntity> get filteredTasks => _tasks.where((task) {
+        if (priorityFilter != 0) {
+          return task.isDone == (pageStatusNavigator == 1) &&
+              task.priority.index == priorityFilter - 1;
+        } else {
+          return task.isDone == (pageStatusNavigator == 1);
+        }
+      }).toList()
+        ..sort((a, b) {
+          if (priorityFilter != 0) {
+            return a.priority.index.compareTo(b.priority.index);
+          }
+          return b.priority.index.compareTo(a.priority.index);
+        });
   int pageStatusNavigator = 0;
+  int priorityFilter = 0;
   bool isDonePage = false;
 
   void changeNavigator(int index) {
@@ -46,6 +59,11 @@ class TaskController extends ChangeNotifier {
 
   void addTask(TaskEntity task) {
     _tasks.add(task);
+    notifyListeners();
+  }
+
+  void filterPriority(int priority) {
+    priorityFilter = priority;
     notifyListeners();
   }
 

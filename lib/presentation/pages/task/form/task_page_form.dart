@@ -45,20 +45,20 @@ class _TaskPageFormState extends State<TaskPageForm> {
 
       setState(() {
         selectedDate = pickedDate;
+        _formData['date'] = pickedDate.toIso8601String();
       });
+      save();
     });
   }
 
   void save() {
     TaskEntity task = TaskModel.fromJson(_formData).toEntity();
-    print(_formData);
     if (widget.onSave != null) {
       widget.onSave!(task);
     }
   }
 
   bool sameEntity() {
-    print('FORM DATA: $_formData');
     return TaskModel.fromEntity(widget.task).toJson() == _formData;
   }
 
@@ -114,7 +114,12 @@ class _TaskPageFormState extends State<TaskPageForm> {
                               ),
                             ))
                         .toList(),
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() {
+                        _formData['priority'] = value!.index;
+                      });
+                      save();
+                    },
                   ),
                 ),
                 TextFormField(
@@ -180,7 +185,7 @@ class _TaskPageFormState extends State<TaskPageForm> {
                         color: Theme.of(context).colorScheme.primary),
                   ),
                   onTap: () =>
-                      _showDatePicker(context, DateTime.now(), DateTime(2025)),
+                      _showDatePicker(context, DateTime.now(), DateTime(2026)),
                 ),
                 Divider(
                   color: Theme.of(context).colorScheme.onPrimary.withAlpha(100),
@@ -201,6 +206,7 @@ class _TaskPageFormState extends State<TaskPageForm> {
                       ),
                     ],
                   ),
+                  onTap: () {},
                   trailing: Text(
                     widget.task.isDone ? 'Concluída' : 'Pendente',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -210,6 +216,19 @@ class _TaskPageFormState extends State<TaskPageForm> {
                 Divider(
                   color: Theme.of(context).colorScheme.onPrimary.withAlpha(100),
                 ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _formData['isDone'] = !widget.task.isDone;
+                          widget.task.toggleDone();
+                        });
+                        save();
+                      },
+                      child: Text(
+                          'Marcar como ${!widget.task.isDone ? 'concluída' : 'pendente'}')),
+                )
               ],
             ),
           )),

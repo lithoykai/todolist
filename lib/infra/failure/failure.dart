@@ -7,3 +7,11 @@ class AppFailure extends Failure {
   @override
   String toString() => msg ?? '';
 }
+
+class AuthFailure extends Failure {
+  String? msg;
+  AuthFailure({this.msg});
+
+  @override
+  String toString() => msg ?? '';
+}

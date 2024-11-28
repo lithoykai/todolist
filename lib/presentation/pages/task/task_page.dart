@@ -14,16 +14,20 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   final controller = getIt<TaskController>();
-  late TaskEntity task;
+  TaskEntity? task;
+  bool isLoading = true;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    TaskEntity entity =
-        ModalRoute.of(context)!.settings.arguments as TaskEntity;
-    setState(() {
-      task = entity;
-    });
+
+    if (task == null) {
+      final entity = ModalRoute.of(context)!.settings.arguments as TaskEntity;
+      setState(() {
+        task = entity;
+        isLoading = false;
+      });
+    }
   }
 
   void automaticSave(TaskEntity newTask) {
@@ -38,9 +42,11 @@ class _TaskPageState extends State<TaskPage> {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => controller.updateTask(task).then(
-                  (value) => Navigator.of(context).pop(),
-                ),
+            onPressed: () => controller.updateTask(task!).then((value) {
+              if (mounted) {
+                Navigator.of(context).pop();
+              }
+            }),
           ),
           actions: const [
             Padding(
@@ -50,9 +56,22 @@ class _TaskPageState extends State<TaskPage> {
             ),
           ],
         ),
-        body: TaskPageForm(
-          task: task,
-          onSave: automaticSave,
-        ));
+        body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : PopScope(
+                canPop: true,
+                onPopInvokedWithResult: (didPop, result) async {
+                  if (didPop) {
+                    await controller.updateTask(task!);
+                    return;
+                  }
+                },
+                child: TaskPageForm(
+                  task: task!,
+                  onSave: automaticSave,
+                ),
+              ));
   }
 }

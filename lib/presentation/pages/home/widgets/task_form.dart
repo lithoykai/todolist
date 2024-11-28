@@ -22,6 +22,7 @@ class _TaskFormState extends State<TaskForm> {
   int priority = 0;
   Map<String, dynamic> _taskForm = {
     'priority': 0,
+    'date': DateTime.now().toIso8601String(),
   };
   DateTime _selectedDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();

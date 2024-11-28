@@ -37,7 +37,7 @@ void main() {
   });
 
   group('getTasks', () {
-    test('should set tasks and update status to idle on success', () async {
+    test('should get tasks and update status to idle on success', () async {
       final _tasks = fakeTaskEntityList;
       when(mockGetTasksUseCase.getTasks())
           .thenAnswer((_) async => Right(_tasks));
@@ -49,7 +49,7 @@ void main() {
       verify(mockGetTasksUseCase.getTasks()).called(1);
     });
 
-    test('should set status to error on failure', () async {
+    test('should set status to error on failure case', () async {
       when(mockGetTasksUseCase.getTasks())
           .thenAnswer((_) async => Left(AppFailure(msg: 'Error')));
 
@@ -72,18 +72,19 @@ void main() {
 
       expect(controller.status, isA<TaskStatusIdle>());
       expect(controller.filteredTasks.contains(_task), true);
-      verify(mockCreateTaskUseCase.call(any)).called(1);
+      verify(mockCreateTaskUseCase.call(_taskModel)).called(1);
     });
 
     test('should set status to error on failure', () async {
-      when(mockCreateTaskUseCase.call(any))
+      final _fixture = fakeTaskModel;
+      when(mockCreateTaskUseCase.call(_fixture))
           .thenAnswer((_) async => Left(AppFailure(msg: 'Error')));
 
       await controller.createTask(fakeTaskModel);
 
       expect(controller.status, isA<TaskStatusError>());
       expect((controller.status as TaskStatusError).message, 'Error');
-      verify(mockCreateTaskUseCase.call(any)).called(1);
+      verify(mockCreateTaskUseCase.call(_fixture)).called(1);
     });
   });
 
@@ -116,19 +117,19 @@ void main() {
 
       expect(controller.filteredTasks.contains(_updatedTask), true);
       expect(controller.status, isA<TaskStatusIdle>());
-      verify(mockUpdateTaskUseCase.call(any)).called(1);
+      verify(mockUpdateTaskUseCase.call(_updatedTask)).called(1);
     });
 
     test('should set status to error on failure', () async {
       final _task = fakeTaskEntity;
-      when(mockUpdateTaskUseCase.call(any))
+      when(mockUpdateTaskUseCase.call(_task))
           .thenAnswer((_) async => Left(AppFailure(msg: 'Error')));
 
       await controller.updateTask(_task);
 
       expect(controller.status, isA<TaskStatusError>());
       expect((controller.status as TaskStatusError).message, 'Error');
-      verify(mockUpdateTaskUseCase.call(any)).called(1);
+      verify(mockUpdateTaskUseCase.call(_task)).called(1);
     });
   });
 
@@ -145,7 +146,7 @@ void main() {
   });
 
   group('changeNavigator', () {
-    test('should update pageStatusNavigator and notify listeners', () {
+    test('should update page navigator and notify listeners', () {
       controller.changeNavigator(1);
 
       expect(controller.pageStatusNavigator, 1);

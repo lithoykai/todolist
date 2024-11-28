@@ -80,16 +80,20 @@ class TaskTileWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            task.title.length > 25
-                                ? '${task.title.substring(0, 20)}...'
-                                : task.title,
+                          AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 500),
                             style: TextStyle(
                               fontSize: 18,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
                               decoration: task.isDone
                                   ? TextDecoration.lineThrough
                                   : null,
+                            ),
+                            child: Text(
+                              task.title.length > 25
+                                  ? '${task.title.substring(0, 20)}...'
+                                  : task.title,
                             ),
                           ),
                           const Text(
