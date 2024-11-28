@@ -23,7 +23,7 @@ Além disso, utilizei:
 | [**GetIt** e **Injectable**](https://pub.dev/packages/get_it) | Injeção de Dependências         |
 
 ### Fotos 
-|<img src="github/1.jpg" width="400">| |<img src="github/2.jpg" width="400">|<img src="github/3.jpg" width="400">|<img src="github/4.jpg" width="400">|<img src="github/5.jpg" width="400">|<img src="github/6.jpg" width="400">|
+<img src="github/1.jpg" width="400">|<img src="github/2.jpg" width="400">|<img src="github/3.jpg" width="400">|<img src="github/4.jpg" width="400">|<img src="github/5.jpg" width="400">|<img src="github/6.jpg" width="400">
 
 ### Use
 Baixe o projeto 
